@@ -1,0 +1,18 @@
+{
+  "extends": "standard",
+  "globals": {
+    "context": true,
+    "describe": false,
+    "it": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "before": false,
+    "after": false,
+    "expect": true,
+    "fail": true,
+    "src": true,
+    "sync": true,
+    "test": true,
+    "root": true
+  }
+}

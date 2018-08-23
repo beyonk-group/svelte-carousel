@@ -1,0 +1,35 @@
+{
+  "name": "svelte-seed",
+  "version": "1.0.0",
+  "description": "A seed for starting svelte projects",
+  "main": "index.js",
+  "author": "Antony Jones",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm ./dist/*",
+    "build": "NODE_ENV=production parcel build index.html -d dist",
+    "watch": "NODE_ENV=development parcel watch index.html --no-cache",
+    "start": "NODE_ENV=development parcel index.html --no-cache",
+    "zip": "npm run build && bestzip ./dist/package.zip ./dist/*",
+    "lint": "eslint .",
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register './!(node_modules)/**/**.+(spec).js'"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "bestzip": "^1.1.4",
+    "code": "^5.2.0",
+    "eslint": "^4.18.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^5.0.1",
+    "parcel-bundler": "^1.9.7",
+    "parcel-plugin-svelte": "^1.2.2",
+    "svelte": "^2.11.0"
+  },
+  "dependencies": {}
+}
