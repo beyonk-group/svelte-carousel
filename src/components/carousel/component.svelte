@@ -1,16 +1,23 @@
-<div class='wrap'>
-  <ul ref:carousel class='carousel is-set'>
-    <slot />
-  </ul>
-</div>
-<div class='controls'>
-  <button class='toggle' on:click="goPrev()">Prev</button>
-  <button class='toggle' on:click="goNext()" data-toggle='next'>Next</button>
+<div class="placeholder">
+  <div class="wrap">
+    <ul ref:carousel class='carousel is-set'>
+      <slot />
+    </ul>
+  </div>
+  <button class="prev" on:click="goPrev()">Prev</button>
+  <button class="next" on:click="goNext()">Next</button>
 </div>
 
 <style>
+  .placeholder {
+    /* display: block; */
+    max-width: 100%;
+  }
+
   .wrap {
+    display: block;
     overflow: hidden;
+    min-width: 100%;
   }
 
   .carousel {
@@ -32,20 +39,27 @@
     transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  .controls {
-    padding: 2em;
-    text-align: center;
-  }
-
-  .controls button {
-    background: #aaa;
+  button {
     border: 0;
     border-radius: 0.25em;
     color: #eee;
     padding: 0.5em 1em;
+    z-index: 999999;
+    display: inline-flex;
+    height: 100%;
   }
 
-  .controls button:hover, .controls button:focus {
+  button.prev {
+    transform: translateY(-100%);
+    float: left;
+  }
+
+  button.next {
+    transform: translateY(-100%);
+    float: right;
+  }
+
+  button:hover, button:focus {
     background: magenta;
   }
 </style>
