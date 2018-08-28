@@ -29,4 +29,4 @@ Carousel which uses flexbox, and will scale to its largest piece of content.
 
 ## Thanks
 
-Huge thanks to [Nick A Walsh](https://codepen.io/nickawalsh/) for his original carousel, [Rich Harris](https://github.com/Rich-Harris) for his immense work on [Svelte](https://svelte.technology), and [Stuart Plumbley](https://github.com/stuplum) for his limitless flexbox expertise.
+Huge thanks to [Nick A Walsh](https://codepen.io/nickawalsh/) for his original carousel, [Rich Harris](https://github.com/Rich-Harris) for his immense work on [Svelte](https://svelte.technology), and [stuplum](https://github.com/stuplum) for his limitless flexbox expertise.
