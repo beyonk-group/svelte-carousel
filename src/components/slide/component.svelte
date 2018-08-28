@@ -1,4 +1,4 @@
-<li class="{ isActive ? 'is-ref' : '' }">
+<li ref:self>
   <slot />
 </li>
 
@@ -11,9 +11,5 @@
 
   li:nth-child(even) {
     background: #d5d5d5;
-  }
-
-  li.is-ref {
-    order: 1;
   }
 </style>

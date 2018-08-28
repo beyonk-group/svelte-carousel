@@ -1,5 +1,5 @@
-<Carousel>
-	<Slide isActive="true">
+<Carousel current="3">
+	<Slide>
 		<h2>1</h2>
 	</Slide>
 	<Slide>
@@ -14,7 +14,7 @@
 	<Slide>
 		<h2>5</h2>
 	</Slide>
-	<Slide class='carousel-seat is-ref'>
+	<Slide>
 		<h2>6</h2>
 	</Slide>
 </Carousel>

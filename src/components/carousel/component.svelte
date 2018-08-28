@@ -1,23 +1,22 @@
-<div class="placeholder">
-  <div class="wrap">
-    <ul ref:carousel class='carousel is-set'>
-      <slot />
+<div class="wrap">
+  <ul ref:carousel class='carousel is-set'>
+    <slot />
+  </ul>
+  <div class="controls">
+    <button class="prev" on:click="prev()">Prev</button>
+    <ul class="pips">
+      {#each seats as seat, i}
+        <li on:click="go(i)"></li>
+      {/each}
     </ul>
+    <button class="next" on:click="next()">Next</button>
   </div>
-  <button class="prev" on:click="goPrev()">Prev</button>
-  <button class="next" on:click="goNext()">Next</button>
 </div>
 
 <style>
-  .placeholder {
-    /* display: block; */
-    max-width: 100%;
-  }
-
   .wrap {
-    display: block;
+    position: relative;
     overflow: hidden;
-    min-width: 100%;
   }
 
   .carousel {
@@ -39,68 +38,91 @@
     transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
+  .controls {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px;
+	}
+	
+	ul {
+	  height: 10%;
+		margin-top: auto;
+		list-style-type: none;
+		padding: 0;
+	}
+	
+	li {
+		display: inline-block;
+		height: 14px;
+		width: 14px;
+		border-radius: 14px;
+		background-color: #eee;
+		margin: 0 2px;
+	}
+	
   button {
     border: 0;
     border-radius: 0.25em;
     color: #eee;
     padding: 0.5em 1em;
     z-index: 999999;
-    display: inline-flex;
-    height: 100%;
   }
 
-  button.prev {
-    transform: translateY(-100%);
-    float: left;
-  }
-
-  button.next {
-    transform: translateY(-100%);
-    float: right;
-  }
-
-  button:hover, button:focus {
+  button:hover, button:focus, li:hover, li:focus {
     background: magenta;
   }
 </style>
 
 <script>
   export default {
+		data () {
+			return {
+				seats: 0
+			}
+		},
+		
     oncreate () {
-      this.set({
-				carousel: this.refs.carousel,
-				seats: this.refs.carousel.children
-			})
+      const { current: providedCurrent } = this.get()
+      const { carousel } = this.refs
+      const seats = carousel.children
+      const requiredSeat = 0 < providedCurrent - 2 <= seats.length ? providedCurrent - 2 : 0
+      const current = seats[requiredSeat]
+      this.set({ carousel, seats, current })
+      this.setNewSeatOrder(current)
     },
 
     methods: {
-      next (el) {
+      advance (el) {
         const { seats } = this.get()
         return el.nextElementSibling || seats[0]
       },
-      prev (el) {
-        const { seats } = this.get()
-        return el.previousElementSibling || seats[seats.length - 1]
-      },
-      goNext () {
-        const el = this.getCurrentSeat()
-        let newSeat = this.next(el)
+      go (num) {
+        const { current, seats } = this.get()
+        const newSeat = num === 0 ? seats[seats.length - 1] : seats[num - 1]
+        if (current === newSeat) { return }
+        this.refs.carousel.classList.remove('is-reversing')
+        this.setNewSeatOrder(newSeat)
+			},
+      next () {
+        const { current } = this.get()
+        const newSeat = this.advance(current)
         this.refs.carousel.classList.remove('is-reversing')
         this.setNewSeatOrder(newSeat)
       },
-      goPrev () {
-        const el = this.getCurrentSeat()
-        let newSeat = this.prev(el)
+      prev () {
+        const { current, seats } = this.get()
+        const newSeat = current.previousElementSibling || seats[seats.length - 1]
         this.refs.carousel.classList.add('is-reversing')
        	this.setNewSeatOrder(newSeat)
       },
-			getCurrentSeat () {
-				const el = document.getElementsByClassName('is-ref')[0]
-        el.classList.remove('is-ref')
-				return el
-			},
 			setNewSeatOrder (newSeat) {
-				newSeat.classList.add('is-ref')
+				this.set({ current: newSeat })
         newSeat.style.order = 1
         this.setOrder(newSeat)
 			},
@@ -108,7 +130,7 @@
         const { seats } = this.get()
         let i, j, ref
         for (let i = j = 2, ref = seats.length; (2 <= ref ? j <= ref : j >= ref); i = 2 <= ref ? ++j : --j) {
-          newSeat = this.next(newSeat)
+          newSeat = this.advance(newSeat)
           newSeat.style.order = i
         }
         this.resetCarousel()
