@@ -1,21 +1,32 @@
-# Svelte seed
+# Svelte Carousel
 
-A ready to go, live-reloading seed project for svelte.
+Carousel which uses flexbox, and will scale to its largest piece of content.
 
-Uses parceljs for bundling.
+## Usage
 
-## How to run
+```html
+<Carousel current="3">
+	<Slide>
+		<h2>1</h2>
+	</Slide>
+	<Slide>
+		<h2>2</h2>
+	</Slide>
+	<Slide>
+		<h2>3</h2>
+	</Slide>
+	<Slide>
+		<h2>4</h2>
+	</Slide>
+	<Slide>
+		<h2>5</h2>
+	</Slide>
+	<Slide>
+		<h2>6</h2>
+	</Slide>
+</Carousel>
+```
 
-`npm install && npm run watch`
+## Thanks
 
-## Developing
-
-Edit the `component.html` file and run `npm run watch`
-
-## Building for production
-
-Run:
-
-`npm run build`
-
-and your built asset will exist in `/dist/<hash>.js`.
+Huge thanks to [Nick A Walsh](https://codepen.io/nickawalsh/) for his original carousel, [Rich Harris](https://github.com/Rich-Harris) for his immense work on [Svelte](https://svelte.technology), and [Stuart Plumbley](https://github.com/stuplum) for his limitless flexbox expertise.
