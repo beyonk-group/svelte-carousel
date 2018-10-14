@@ -29,7 +29,15 @@ npm i -D @beyonk/svelte-carousel
 ```
 
 ```js
-import Carousel from '@beyonk/svelte-carousel'
+import Carousel from '@beyonk/svelte-carousel/src/components/carousel/component.svelte'
+import Slide from '@beyonk/svelte-carousel/src/components/slide/component.svelte'
+
+export default {
+	components: {
+		Carousel,
+		Slide
+	}
+}
 ```
 
 ## Usage
