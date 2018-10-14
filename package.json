@@ -1,15 +1,15 @@
 {
-  "name": "svelte-seed",
+  "name": "@beyonk/svelte-carousel",
   "version": "1.0.0",
-  "description": "A seed for starting svelte projects",
+  "description": "A super simple infinite carousel",
   "main": "index.js",
   "author": "Antony Jones",
   "license": "MIT",
+  "svelte": "./src/components/carousel/component.svelte",
   "scripts": {
     "clean": "rm ./dist/*",
-    "build": "NODE_ENV=production parcel build index.html -d dist",
-    "watch": "NODE_ENV=development parcel watch index.html --no-cache",
-    "start": "NODE_ENV=development parcel index.html --no-cache",
+    "build": "svelte compile --format iife src/components/carousel/component.svelte > lib/carousel.js",
+    "dev": "NODE_ENV=development parcel index.html --no-cache",
     "zip": "npm run build && bestzip ./dist/package.zip ./dist/*",
     "lint": "eslint .",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register './!(node_modules)/**/**.+(spec).js'"

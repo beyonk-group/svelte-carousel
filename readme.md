@@ -2,6 +2,36 @@
 
 Carousel which uses flexbox, and will scale to its largest piece of content.
 
+### Demo
+
+To run a demo, check this project out and run `npm run demo`
+
+## Usage
+
+### To use within any Javascript project
+Simply install the package and require it in your javascript (or require it from CDN)
+
+```bash
+npm i -D @beyonk/svelte-carousel
+```
+
+```html
+<script src="node_modules/@beyonk/svelte-carousel/lib/carousel.js"></script>
+
+<!-- or -->
+<script src="//unpkg.com/@beyonk/svelte-carousel@latest/lib/carousel.js"></script>
+```
+
+### To use within a Svelte application:
+
+```bash
+npm i -D @beyonk/svelte-carousel
+```
+
+```js
+import Carousel from '@beyonk/svelte-carousel'
+```
+
 ## Usage
 
 ```jsx
