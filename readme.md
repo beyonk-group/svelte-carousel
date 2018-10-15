@@ -65,6 +65,8 @@ export default {
 </Carousel>
 ```
 
+The `current` parameter is a 1-indexed number into your list of slides. The carousel will start on this slide.
+
 ## Thanks
 
 Huge thanks to [Nick A Walsh](https://codepen.io/nickawalsh/) for his original carousel, [Rich Harris](https://github.com/Rich-Harris) for his immense work on [Svelte](https://svelte.technology), and [Stu Plumbley](https://github.com/stuplum) for his limitless flexbox expertise.

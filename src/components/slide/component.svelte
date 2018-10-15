@@ -4,12 +4,6 @@
 
 <style>
   li {
-    background: #ddd;
     flex: 1 0 100%;
-    order: 2;
-  }
-
-  li:nth-child(even) {
-    background: #d5d5d5;
   }
 </style>

@@ -91,10 +91,10 @@
       const { current: providedCurrent } = this.get()
       const { carousel } = this.refs
       const seats = carousel.children
-      const requiredSeat = 0 < providedCurrent - 2 <= seats.length ? providedCurrent - 2 : 0
+      const requiredSeat = 1 < providedCurrent <= seats.length ? providedCurrent - 1 : 0
       const current = seats[requiredSeat]
       this.set({ carousel, seats, current })
-      this.setNewSeatOrder(current)
+      this.go(providedCurrent - 1)
     },
 
     methods: {
