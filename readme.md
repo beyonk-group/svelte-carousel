@@ -69,7 +69,7 @@ The `current` parameter is a 1-indexed number into your list of slides. The caro
 
 ### Customising controls
 
-You can customise the controls by filling their slots:
+You can customise the controls by filling their slots. If you don't include slots, the default controls will be used:
 
 ```jsx
 <Carousel current="1">
