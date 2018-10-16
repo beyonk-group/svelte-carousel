@@ -3,13 +3,21 @@
     <slot />
   </ul>
   <div class="controls">
-    <button class="prev" on:click="prev()">Prev</button>
+    <div class="prev" on:click="prev()">
+      <slot name="prev">
+        <div class="left"></div>
+      </slot>
+    </div>
     <ul class="pips">
       {#each seats as seat, i}
         <li on:click="go(i)"></li>
       {/each}
     </ul>
-    <button class="next" on:click="next()">Next</button>
+    <div class="next" on:click="next()">
+      <slot name="next">
+        <div class="right"></div>
+      </slot>
+    </div>
   </div>
 </div>
 
@@ -47,7 +55,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 10px;
+    padding: 10px;
 	}
 	
 	ul {
@@ -55,6 +63,7 @@
 		margin-top: auto;
 		list-style-type: none;
 		padding: 0;
+    margin-block-end: 0;
 	}
 	
 	li {
@@ -65,18 +74,36 @@
 		background-color: #eee;
 		margin: 0 2px;
 	}
-	
-  button {
-    border: 0;
-    border-radius: 0.25em;
-    color: #eee;
-    padding: 0.5em 1em;
-    z-index: 999999;
+
+  li:hover {
+    background-color: #444;
   }
 
-  button:hover, button:focus, li:hover, li:focus {
-    background: magenta;
-  }
+
+	.left {
+		margin-left: 10px;
+		display: inline-block;
+		border-right: 4px solid #fff;
+		border-bottom: 4px solid #fff;
+		width: 20px;
+		height: 20px;
+		transform: rotate(-225deg);
+	}
+
+	.right {
+		margin-right: 10px;
+		display: inline-block;
+		border-right: 4px solid #fff;
+		border-bottom: 4px solid #fff;
+		width: 20px;
+		height: 20px;
+		transform: rotate(-45deg);
+	}
+
+	.left:hover, .right:hover {
+		border-right-color: #444;
+		border-bottom-color: #444;
+	}
 </style>
 
 <script>

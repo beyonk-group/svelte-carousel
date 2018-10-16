@@ -67,6 +67,24 @@ export default {
 
 The `current` parameter is a 1-indexed number into your list of slides. The carousel will start on this slide.
 
+### Customising controls
+
+You can customise the controls by filling their slots:
+
+```jsx
+<Carousel current="1">
+	<button slot="prev">&lt; Prev</button>
+	<button slot="next">Next &gt;</button>
+	<Slide>
+		<h2>1</h2>
+	</Slide>
+	...
+	<Slide>
+		<h2>9</h2>
+	</Slide>
+</Carousel>
+```
+
 ## Thanks
 
 Huge thanks to [Nick A Walsh](https://codepen.io/nickawalsh/) for his original carousel, [Rich Harris](https://github.com/Rich-Harris) for his immense work on [Svelte](https://svelte.technology), and [Stu Plumbley](https://github.com/stuplum) for his limitless flexbox expertise.
