@@ -11,7 +11,7 @@ Carousel which uses flexbox, and will scale to its largest piece of content.
 
 ### Demo
 
-To run a demo, check this project out and run `npm run demo`
+To run a demo, check this project out and run `npm run dev`
 
 ## Usage
 
