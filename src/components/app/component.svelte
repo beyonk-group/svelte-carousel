@@ -1,6 +1,4 @@
 <Carousel current="1">
-	<div class="left" slot="prev"></div>
-	<div class="right" slot="next"></div>
 	<Slide>
 		<h2>1</h2>
 	</Slide>

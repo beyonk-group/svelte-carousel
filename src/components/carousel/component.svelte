@@ -71,14 +71,18 @@
 		height: 14px;
 		width: 14px;
 		border-radius: 14px;
-		background-color: #eee;
+		background-color: #fff;
 		margin: 0 2px;
 	}
 
-  li:hover {
-    background-color: #444;
+  .prev, .next, li {
+    opacity: 0.7;
+    transition: 0.3s ease;
   }
 
+  .prev:hover, .next:hover, li:hover {
+    opacity: 1;
+  }
 
 	.left {
 		margin-left: 10px;
@@ -98,11 +102,6 @@
 		width: 20px;
 		height: 20px;
 		transform: rotate(-45deg);
-	}
-
-	.left:hover, .right:hover {
-		border-right-color: #444;
-		border-bottom-color: #444;
 	}
 </style>
 
