@@ -1,4 +1,4 @@
-<Carousel current="1">
+<Carousel current="1" autoplay="2000">
 	<Slide>
 		<h2>1</h2>
 	</Slide>

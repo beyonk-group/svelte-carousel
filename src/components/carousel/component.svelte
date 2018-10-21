@@ -109,25 +109,51 @@
   export default {
 		data () {
 			return {
-				seats: 0
+        seats: 0,
+        autoplay: false
 			}
-		},
+    },
 		
     oncreate () {
-      const { current: providedCurrent } = this.get()
+      const { current: providedCurrent, autoplay } = this.get()
       const { carousel } = this.refs
       const seats = carousel.children
       const requiredSeat = 1 < providedCurrent <= seats.length ? providedCurrent - 1 : 0
       const current = seats[requiredSeat]
       this.set({ carousel, seats, current })
       this.go(providedCurrent - 1)
+      this.start()
     },
 
     methods: {
+      start () {
+        const { autoplay, timer } = this.get()
+
+        if (timer) {
+          this.stop()
+        }
+
+        if (!autoplay) {
+          return
+        }
+
+        const component = this
+        setInterval(function () {
+          component.next()
+        }, autoplay)
+        this.set({ timer })
+      },
+
+      stop () {
+        const { timer } = this.get()
+        clearInterval(timer)
+      },
+
       advance (el) {
         const { seats } = this.get()
         return el.nextElementSibling || seats[0]
       },
+
       go (num) {
         const { current, seats } = this.get()
         const newSeat = num === 0 ? seats[seats.length - 1] : seats[num - 1]
@@ -135,23 +161,27 @@
         this.refs.carousel.classList.remove('is-reversing')
         this.setNewSeatOrder(newSeat)
 			},
+
       next () {
         const { current } = this.get()
         const newSeat = this.advance(current)
         this.refs.carousel.classList.remove('is-reversing')
         this.setNewSeatOrder(newSeat)
       },
+
       prev () {
         const { current, seats } = this.get()
         const newSeat = current.previousElementSibling || seats[seats.length - 1]
         this.refs.carousel.classList.add('is-reversing')
        	this.setNewSeatOrder(newSeat)
       },
+
 			setNewSeatOrder (newSeat) {
 				this.set({ current: newSeat })
         newSeat.style.order = 1
         this.setOrder(newSeat)
 			},
+
       setOrder (newSeat) {
         const { seats } = this.get()
         let i, j, ref
@@ -161,6 +191,7 @@
         }
         this.resetCarousel()
       },
+
       resetCarousel () {
         const { carousel } = this.get()
         carousel.classList.remove('is-set')

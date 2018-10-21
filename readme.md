@@ -92,6 +92,32 @@ You can customise the controls by filling their slots. If you don't include slot
 </Carousel>
 ```
 
+### Autoplay
+
+You can cause the carousel to autoplay by setting the value of the `autoplay` to a millisecond amount.
+
+```jsx
+<Carousel ref:carousel current="1" autoplay="1000">
+	<button slot="prev">&lt; Prev</button>
+	<button slot="next">Next &gt;</button>
+	<Slide>
+		<h2>1</h2>
+	</Slide>
+	...
+	<Slide>
+		<h2>9</h2>
+	</Slide>
+</Carousel>
+```
+
+You can also manually pause and start the carousel by calling the component methods:
+
+```js
+	const { carousel } = this.refs // We grab a component reference from the 'ref:carousel' attribute above.
+	carousel.start()
+	carousel.stop()
+```
+
 ## Thanks
 
 Huge thanks to [Nick A Walsh](https://codepen.io/nickawalsh/) for his original carousel, [Rich Harris](https://github.com/Rich-Harris) for his immense work on [Svelte](https://svelte.technology), and [Stu Plumbley](https://github.com/stuplum) for his limitless flexbox expertise.
