@@ -198,6 +198,10 @@
         setTimeout(function () {
           return carousel.classList.add('is-set')
         }, 50)
+      },
+
+      ondestroy () {
+        this.stop()
       }
     }
   }
