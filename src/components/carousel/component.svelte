@@ -137,10 +137,11 @@
           return
         }
 
-        const component = this
         setInterval(function () {
-          component.next()
-        }, autoplay)
+          if (this.refs.carousel) {
+            this.next()
+          }
+        }.bind(this), autoplay)
         this.set({ timer })
       },
 
