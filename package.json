@@ -1,6 +1,6 @@
 {
   "name": "@beyonk/svelte-carousel",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "A super simple infinite carousel",
   "main": "index.js",
   "author": "Antony Jones",
