@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class="carousel-container">
   <ul ref:carousel class='carousel is-set'>
     <slot />
   </ul>
@@ -22,7 +22,7 @@
 </div>
 
 <style>
-  .wrap {
+  .carousel-container {
     position: relative;
     overflow: hidden;
   }
