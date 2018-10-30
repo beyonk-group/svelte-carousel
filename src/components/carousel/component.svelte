@@ -125,29 +125,30 @@
       this.start()
     },
 
+    ondestroy () {
+      this.stop()
+    },
+
     methods: {
       start () {
-        const { autoplay, timer } = this.get()
-
-        if (timer) {
-          this.stop()
-        }
+        this.stop()
+        const { autoplay } = this.get()
 
         if (!autoplay) {
           return
         }
 
-        setInterval(function () {
-          if (this.refs.carousel) {
-            this.next()
-          }
+        const timer = setInterval(function () {
+          this.next()
         }.bind(this), autoplay)
+
         this.set({ timer })
       },
 
       stop () {
         const { timer } = this.get()
         clearInterval(timer)
+        this.set({ timer: undefined })
       },
 
       advance (el) {
@@ -199,10 +200,6 @@
         setTimeout(function () {
           return carousel.classList.add('is-set')
         }, 50)
-      },
-
-      ondestroy () {
-        this.stop()
       }
     }
   }
