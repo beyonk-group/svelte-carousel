@@ -26,7 +26,8 @@
     "slider",
     "glidejs",
     "slick",
-    "flickity"
+    "flickity",
+    "siema"
   ],
   "repository": "github:beyonk-adventures/svelte-carousel",
   "files": [
