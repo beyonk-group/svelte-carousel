@@ -75,7 +75,7 @@ You can set the controls to be anything you like, though the default height and 
 
 If you need to override height and width, you can use CSS:
 
-```js
+```css
 	.control :global(svg) {
 		width: 100%;
 		height: 100%;
