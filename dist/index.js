@@ -51,6 +51,12 @@
     function detach(node) {
         node.parentNode.removeChild(node);
     }
+    function destroy_each(iterations, detaching) {
+        for (let i = 0; i < iterations.length; i += 1) {
+            if (iterations[i])
+                iterations[i].d(detaching);
+        }
+    }
     function element(name) {
         return document.createElement(name);
     }
@@ -297,25 +303,73 @@
 
     function add_css() {
     	var style = element("style");
-    	style.id = 'svelte-1t5yikb-style';
-    	style.textContent = ".carousel.svelte-1t5yikb{position:relative;width:100%;justify-content:center;align-items:center}button.svelte-1t5yikb{position:absolute;width:40px;height:40px;top:50%;z-index:50;margin-top:-20px;border:none;background-color:transparent}button.svelte-1t5yikb:focus{outline:none}.left.svelte-1t5yikb{left:2vw}.right.svelte-1t5yikb{right:2vw}";
+    	style.id = 'svelte-6pleld-style';
+    	style.textContent = ".carousel.svelte-6pleld{position:relative;width:100%;justify-content:center;align-items:center}button.svelte-6pleld{position:absolute;width:40px;height:40px;top:50%;z-index:50;margin-top:-20px;border:none;background-color:transparent}button.svelte-6pleld:focus{outline:none}.left.svelte-6pleld{left:2vw}.right.svelte-6pleld{right:2vw}ul.svelte-6pleld{list-style-type:none;position:absolute;display:flex;justify-content:center;width:100%;margin-top:-30px;padding:0}ul.svelte-6pleld li.svelte-6pleld{margin:6px;border-radius:100%;background-color:rgba(255,255,255,0.5);height:8px;width:8px}ul.svelte-6pleld li.svelte-6pleld:hover{background-color:rgba(255,255,255,0.85)}";
     	append(document.head, style);
     }
 
     const get_right_control_slot_changes = ({}) => ({});
     const get_right_control_slot_context = ({}) => ({});
 
+    function get_each_context(ctx, list, i) {
+    	const child_ctx = Object.create(ctx);
+    	child_ctx.pip = list[i];
+    	child_ctx.i = i;
+    	return child_ctx;
+    }
+
     const get_left_control_slot_changes = ({}) => ({});
     const get_left_control_slot_context = ({}) => ({});
 
+    // (10:2) {#each pips as pip, i}
+    function create_each_block(ctx) {
+    	var li, dispose;
+
+    	function click_handler() {
+    		return ctx.click_handler(ctx);
+    	}
+
+    	return {
+    		c() {
+    			li = element("li");
+    			attr(li, "class", "svelte-6pleld");
+    			dispose = listen(li, "click", click_handler);
+    		},
+
+    		m(target, anchor) {
+    			insert(target, li, anchor);
+    		},
+
+    		p(changed, new_ctx) {
+    			ctx = new_ctx;
+    		},
+
+    		d(detaching) {
+    			if (detaching) {
+    				detach(li);
+    			}
+
+    			dispose();
+    		}
+    	};
+    }
+
     function create_fragment(ctx) {
-    	var div1, button0, t0, div0, t1, button1, current, dispose;
+    	var div1, button0, t0, div0, t1, ul, t2, button1, current, dispose;
 
     	const left_control_slot_1 = ctx.$$slots["left-control"];
     	const left_control_slot = create_slot(left_control_slot_1, ctx, get_left_control_slot_context);
 
     	const default_slot_1 = ctx.$$slots.default;
     	const default_slot = create_slot(default_slot_1, ctx, null);
+
+    	var each_value = ctx.pips;
+
+    	var each_blocks = [];
+
+    	for (var i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
 
     	const right_control_slot_1 = ctx.$$slots["right-control"];
     	const right_control_slot = create_slot(right_control_slot_1, ctx, get_right_control_slot_context);
@@ -331,16 +385,24 @@
 
     			if (default_slot) default_slot.c();
     			t1 = space();
+    			ul = element("ul");
+
+    			for (var i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t2 = space();
     			button1 = element("button");
 
     			if (right_control_slot) right_control_slot.c();
 
-    			attr(button0, "class", "left svelte-1t5yikb");
+    			attr(button0, "class", "left svelte-6pleld");
 
     			attr(div0, "class", "slides");
+    			attr(ul, "class", "svelte-6pleld");
 
-    			attr(button1, "class", "right svelte-1t5yikb");
-    			attr(div1, "class", "carousel svelte-1t5yikb");
+    			attr(button1, "class", "right svelte-6pleld");
+    			attr(div1, "class", "carousel svelte-6pleld");
 
     			dispose = [
     				listen(button0, "click", ctx.left),
@@ -373,6 +435,13 @@
 
     			add_binding_callback(() => ctx.div0_binding(div0, null));
     			append(div1, t1);
+    			append(div1, ul);
+
+    			for (var i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(ul, null);
+    			}
+
+    			append(div1, t2);
     			append(div1, button1);
 
     			if (right_control_slot) {
@@ -394,6 +463,27 @@
     			if (changed.items) {
     				ctx.div0_binding(null, div0);
     				ctx.div0_binding(div0, null);
+    			}
+
+    			if (changed.pips) {
+    				each_value = ctx.pips;
+
+    				for (var i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(changed, child_ctx);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(ul, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+    				each_blocks.length = each_value.length;
     			}
 
     			if (right_control_slot && right_control_slot.p && changed.$$scope) {
@@ -426,6 +516,8 @@
     			if (default_slot) default_slot.d(detaching);
     			ctx.div0_binding(null, div0);
 
+    			destroy_each(each_blocks, detaching);
+
     			if (right_control_slot) right_control_slot.d(detaching);
     			run_all(dispose);
     		}
@@ -435,19 +527,26 @@
     function instance($$self, $$props, $$invalidate) {
     	
     	
-    	let { perPage = 3, loop = true } = $$props;
-    	
+    	let { perPage = 3, loop = true, autoplay = 0 } = $$props;
+
     	let siema;
     	let controller;
+    	let timer;
     	
     	onMount(() => {
-    		controller = new Siema({
+    		$$invalidate('controller', controller = new Siema({
     			selector: siema,
     			perPage,
     			loop
-    		});
-    		
-    		return () => controller.destroy()
+    		}));
+
+    console.log(autoplay);
+    		autoplay && setInterval(right, autoplay);
+
+    		return () => {
+    			autoplay && clearTimeout(timer);
+    			controller.destroy();
+    		}
     	});
     	
     	function left () {
@@ -458,6 +557,10 @@
     		controller.next();
     	}
 
+    	function go (index) {
+    		controller.goTo(index);
+    	}
+
     	let { $$slots = {}, $$scope } = $$props;
 
     	function div0_binding($$node, check) {
@@ -465,19 +568,34 @@
     		$$invalidate('siema', siema);
     	}
 
+    	function click_handler({ i }) {
+    		return go(i);
+    	}
+
     	$$self.$set = $$props => {
     		if ('perPage' in $$props) $$invalidate('perPage', perPage = $$props.perPage);
     		if ('loop' in $$props) $$invalidate('loop', loop = $$props.loop);
+    		if ('autoplay' in $$props) $$invalidate('autoplay', autoplay = $$props.autoplay);
     		if ('$$scope' in $$props) $$invalidate('$$scope', $$scope = $$props.$$scope);
+    	};
+
+    	let pips;
+
+    	$$self.$$.update = ($$dirty = { controller: 1 }) => {
+    		if ($$dirty.controller) { $$invalidate('pips', pips = controller ? controller.innerElements : []); }
     	};
 
     	return {
     		perPage,
     		loop,
+    		autoplay,
     		siema,
     		left,
     		right,
+    		go,
+    		pips,
     		div0_binding,
+    		click_handler,
     		$$slots,
     		$$scope
     	};
@@ -486,8 +604,8 @@
     class Carousel extends SvelteComponent {
     	constructor(options) {
     		super();
-    		if (!document.getElementById("svelte-1t5yikb-style")) add_css();
-    		init(this, options, instance, create_fragment, safe_not_equal, ["perPage", "loop"]);
+    		if (!document.getElementById("svelte-6pleld-style")) add_css();
+    		init(this, options, instance, create_fragment, safe_not_equal, ["perPage", "loop", "autoplay"]);
     	}
     }
 
@@ -586,7 +704,7 @@
     	};
     }
 
-    // (2:1) <Carousel>
+    // (2:1) <Carousel autoplay={1000}>
     function create_default_slot(ctx) {
     	var t0, div0, t3, div1, t6, div2, t9, div3, t12;
 
@@ -656,6 +774,7 @@
 
     	var carousel = new Carousel({
     		props: {
+    		autoplay: 1000,
     		$$slots: {
     		default: [create_default_slot],
     		"right-control": [create_right_control_slot],

@@ -93,3 +93,4 @@ You can pass the following attributes:
 |-----------|---------|---------------|------------------------------------------------------------------------------------------------------------------------------|
 | loop      | boolean | true          | At the end of the carousel, loop through to the first slide again, seamlessly                                                |
 | perPage   | integer | 3             | Number of slides on a single page. Note that this needs to be greater than or equal to the number of slides in your carousel |
+| autoplay  | integer | 0             | Auto-change slide at an interval (in milliseconds). 0 means don't autoplay.                                                  |

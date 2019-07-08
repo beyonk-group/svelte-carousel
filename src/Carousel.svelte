@@ -6,6 +6,11 @@
 	<div class="slides" bind:this={siema}>
 		<slot></slot>
 	</div>
+	<ul>
+		{#each pips as pip, i}
+		<li on:click={() => go(i)}></li>
+		{/each}
+	</ul>
 	<button class="right" on:click={right}>
 		<slot name="right-control"></slot>
 	</button>
@@ -41,6 +46,28 @@
 	.right {
 		right: 2vw;
 	}
+
+	ul {
+		list-style-type: none;
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin-top: -30px;
+		padding: 0;
+	}
+
+	ul li {
+		margin: 6px;
+		border-radius: 100%;
+		background-color: rgba(255,255,255,0.5);
+		height: 8px;
+		width: 8px;
+	}
+
+	ul li:hover {
+		background-color: rgba(255,255,255,0.85);
+	}
 </style>
 
 <script>
@@ -49,9 +76,13 @@
 	
 	export let perPage = 3
 	export let loop = true
-	
+	export let autoplay = 0
+
 	let siema
 	let controller
+	let timer
+
+	$: pips = controller ? controller.innerElements : []
 	
 	onMount(() => {
 		controller = new Siema({
@@ -59,8 +90,14 @@
 			perPage,
 			loop
 		})
-		
-		return () => controller.destroy()
+
+console.log(autoplay)
+		autoplay && setInterval(right, autoplay)
+
+		return () => {
+			autoplay && clearTimeout(timer)
+			controller.destroy()
+		}
 	})
 	
 	function left () {
@@ -69,5 +106,9 @@
 	
 	function right () {
 		controller.next()
+	}
+
+	function go (index) {
+		controller.goTo(index)
 	}
 </script>
