@@ -30,20 +30,14 @@ npm i -D @beyonk/svelte-carousel
 
 ```jsx
 <Carousel>
-  <span class="control" slot="left-control">
-    <ChevronLeftIcon />
-  </span>
   <div class="slide-content">Slide 1</div>
   <div class="slide-content">Slide 2</div>
   <div class="slide-content">Slide 3</div>
   <div class="slide-content">Slide 4</div>
-  <span class="control" slot="right-control">
-    <ChevronRightIcon />
-  </span>
 </Carousel>
 
 <script>
-	import Carousel from './Carousel.svelte'
+	import Carousel from '@beyonk/svelte-carousel'
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons'
 </script>
 ```
@@ -53,6 +47,10 @@ npm i -D @beyonk/svelte-carousel
 #### Controls
 
 You can set the controls to be anything you like, though the default height and width are set to 40px. Just use the slots available to insert your own content.
+
+```bash
+npm i -D svelte-feather-icons
+```
 
 ```jsx
 <Carousel>
@@ -94,3 +92,10 @@ You can pass the following attributes:
 | loop      | boolean | true          | At the end of the carousel, loop through to the first slide again, seamlessly                                                |
 | perPage   | integer | 3             | Number of slides on a single page. Note that this needs to be greater than or equal to the number of slides in your carousel |
 | autoplay  | integer | 0             | Auto-change slide at an interval (in milliseconds). 0 means don't autoplay.                                                  |
+
+perPage can also be set to a responsive object, to change the number of slides based on screen width:
+
+```jsx
+<Carousel perPage={{ 800: 3, 500: 2 }}>
+// will show 1 slide below 500px width, 2 at 500, 3 at 800.
+```
