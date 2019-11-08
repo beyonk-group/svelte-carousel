@@ -17,6 +17,7 @@ This library is pure javascript, so can be used with any framework you like.
 ### Demo
 
 ```
+npm install
 npm run dev # http://localhost:12001
 ```
 
