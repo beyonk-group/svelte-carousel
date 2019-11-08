@@ -90,8 +90,7 @@
 			perPage,
 			loop
 		})
-
-console.log(autoplay)
+		
 		autoplay && setInterval(right, autoplay)
 
 		return () => {
