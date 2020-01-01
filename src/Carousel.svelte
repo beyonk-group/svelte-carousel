@@ -72,7 +72,7 @@
 
 <script>
 	import Siema from 'siema'
-	import { onMount } from 'svelte'
+	import { onMount, createEventDispatcher } from 'svelte'
 	
 	export let perPage = 3
 	export let loop = true
@@ -82,13 +82,16 @@
 	let controller
 	let timer
 
+	const dispatch = createEventDispatcher()
+
 	$: pips = controller ? controller.innerElements : []
 	
 	onMount(() => {
 		controller = new Siema({
 			selector: siema,
 			perPage,
-			loop
+			loop,
+			onChange: handleChange
 		})
 		
 		autoplay && setInterval(right, autoplay)
@@ -109,5 +112,12 @@
 
 	function go (index) {
 		controller.goTo(index)
+	}
+
+	function handleChange (event) {
+		dispatch('change', {
+			currentSlide: controller.currentSlide,
+			slideCount: controller.innerElements.length
+		} )
 	}
 </script>

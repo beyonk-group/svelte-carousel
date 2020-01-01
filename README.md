@@ -100,3 +100,11 @@ perPage can also be set to a responsive object, to change the number of slides b
 <Carousel perPage={{ 800: 3, 500: 2 }}>
 // will show 1 slide below 500px width, 2 at 500, 3 at 800.
 ```
+
+### Events
+
+The Carousel components emits the following events:
+
+| Name     | Data                           | Description                                                                    |
+|----------|--------------------------------|--------------------------------------------------------------------------------|
+| `change` | `{ currentSlide, slideCount }` | `currentSlide`: The current slide index. Can be a positive or negative integer. `slideCount`: The number of slides. |
