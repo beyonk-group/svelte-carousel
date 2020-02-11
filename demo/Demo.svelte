@@ -1,5 +1,5 @@
 <div class="demo">
-	<Carousel>
+	<Carousel on:change="{changed}">
 		<span class="control" slot="left-control">
 			<ChevronLeftIcon />
 		</span>
@@ -77,4 +77,8 @@
 <script>
 	import Carousel from '../src/Carousel.svelte'
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons'
+
+	function changed (event) {
+		console.log(event.detail.currentSlide)
+	}
 </script>
