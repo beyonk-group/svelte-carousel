@@ -1,5 +1,5 @@
 <div class="demo">
-	<Carousel on:change="{changed}">
+	<Carousel on:change={changed}>
 		<span class="control" slot="left-control">
 			<ChevronLeftIcon />
 		</span>
