@@ -77,7 +77,14 @@
 	export let perPage = 3
 	export let loop = true
 	export let autoplay = 0
-
+	export let duration = 200
+	export let easing = 'ease-out'
+	export let startIndex = 0
+	export let draggable = true
+	export let multipleDrag = true	
+	export let threshold = 20
+	export let rtl = false
+	
 	let siema
 	let controller
 	let timer
@@ -91,6 +98,13 @@
 			selector: siema,
 			perPage,
 			loop,
+  			duration,
+  			easing,
+  			startIndex,
+  			draggable,
+ 			multipleDrag,
+  			threshold,
+  			rtl,
 			onChange: handleChange
 		})
 		
