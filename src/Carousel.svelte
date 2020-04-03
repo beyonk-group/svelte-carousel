@@ -8,7 +8,7 @@
 	</div>
 	<ul>
 		{#each pips as pip, i}
-		<li on:click={() => go(i)}></li>
+		<li on:click={() => go(i)} class={currentIndex === i ? "active" : ""}></li>
 		{/each}
 	</ul>
 	<button class="right" on:click={right}>
@@ -68,6 +68,10 @@
 	ul li:hover {
 		background-color: rgba(255,255,255,0.85);
 	}
+
+	ul li.active {
+		background-color: rgba(255,255,255,1);
+	}
 </style>
 
 <script>
@@ -84,6 +88,7 @@
 	export let multipleDrag = true	
 	export let threshold = 20
 	export let rtl = false
+	let currentIndex = startIndex;
 	
 	let siema
 	let controller
@@ -129,6 +134,8 @@
 	}
 
 	function handleChange (event) {
+		currentIndex = controller.currentSlide
+
 		dispatch('change', {
 			currentSlide: controller.currentSlide,
 			slideCount: controller.innerElements.length
