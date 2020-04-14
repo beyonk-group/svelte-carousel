@@ -6,11 +6,13 @@
 	<div class="slides" bind:this={siema}>
 		<slot></slot>
 	</div>
+    {#if dots}
 	<ul>
 		{#each pips as pip, i}
 		<li on:click={() => go(i)} class={currentIndex === i ? "active" : ""}></li>
 		{/each}
 	</ul>
+    {/if}
 	<button class="right" on:click={right}>
 		<slot name="right-control"></slot>
 	</button>
@@ -86,6 +88,7 @@
 	export let startIndex = 0
 	export let draggable = true
 	export let multipleDrag = true	
+	export let dots = true	
 	export let threshold = 20
 	export let rtl = false
 	let currentIndex = startIndex;

@@ -98,8 +98,8 @@ You can pass the following attributes:
 | startIndex | number | 0	      | Index (zero-based) of the starting slide.                                                 				     |
 | draggable | boolean | true	      | Use dragging and touch swiping.                                                 				       |
 | multipleDrag | boolean | true	      | Allow dragging to move multiple slides.                                                 				     |
+| dots | boolean | true	      | Toggles visibility of slider dots.                                                 				  	       |
 | threshold | number | 20	      | Touch and mouse dragging threshold (in px).                                                 				     |
-| loop | boolean | false	      | Loop the slides around.                                                 				  	       |
 | rtl | boolean | false	      | Enables layout for languages written from right to left (like Hebrew or Arabic).                                                |
 
 perPage can also be set to a responsive object, to change the number of slides based on screen width:
