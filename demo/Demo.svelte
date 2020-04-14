@@ -61,6 +61,7 @@
 		display: flex;
 		flex-direction: column;
 		height: 230px;
+        background-color: beige;
 	}
 	
 	.slide-content header {
