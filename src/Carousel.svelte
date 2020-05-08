@@ -9,7 +9,7 @@
     {#if dots}
 	<ul>
 		{#each pips as pip, i}
-		<li on:click={() => go(i)} class={currentIndex === i || (currentIndex<0 && currentIndex == i-controller.innerElements.length) ? "active" : ""}></li>
+		<li on:click={() => go(i)} class={currentIndex === i || (currentIndex<0 && currentIndex === i-controller.innerElements.length) ? "active" : ""}></li>
 		{/each}
 	</ul>
     {/if}
