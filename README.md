@@ -16,6 +16,8 @@ This library is pure javascript, so can be used with any framework you like.
 
 ### Demo
 
+The [simplest possible demo](https://svelte.dev/repl/3953567d530b41d087ab7eaa8e7e632a?version=3.22.3)
+
 ```
 npm install
 npm run dev # http://localhost:12001
