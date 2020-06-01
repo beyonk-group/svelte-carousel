@@ -104,7 +104,7 @@
 	onMount(() => {
 		controller = new Siema({
 			selector: siema,
-			perPage: parseInt(perPage),
+			perPage: isNaN(perPage)? perPage: Number(perPage),
 			loop,
   			duration,
   			easing,
