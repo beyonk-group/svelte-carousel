@@ -116,24 +116,36 @@
 			onChange: handleChange
 		})
 		
-		autoplay && setInterval(right, autoplay)
+		if(autoplay) {
+			timer = setInterval(right, autoplay);
+		}
 
 		return () => {
-			autoplay && clearTimeout(timer)
+			autoplay && clearInterval(timer)
 			controller.destroy()
 		}
 	})
 	
-	function left () {
+	export function left () {
 		controller.prev()
 	}
 	
-	function right () {
+	export function right () {
 		controller.next()
 	}
 
-	function go (index) {
+	export function go (index) {
 		controller.goTo(index)
+	}
+	
+	export function pause() {
+		clearInterval(timer);
+	}
+
+	export function resume() {
+		if (autoplay) {
+			timer = setInterval(right, autoplay);
+		}
 	}
 
 	function handleChange (event) {

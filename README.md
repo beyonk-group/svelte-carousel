@@ -118,3 +118,31 @@ The Carousel components emits the following events:
 | Name     | Data                           | Description                                                                    |
 |----------|--------------------------------|--------------------------------------------------------------------------------|
 | `change` | `{ currentSlide, slideCount }` | `currentSlide`: The current slide index. Can be a positive or negative integer. `slideCount`: The number of slides. |
+
+
+### Actions
+
+  You can call left, right, go(slideNumber), pause and resume functions on the slider. For example, for pausing the autoslide while the mouse is hover the carousel 
+  
+  ```jsx
+<Carousel bind:this={carousel} on:mouseenter={enter} on:mouseleave={leave}>
+  <div class="slide-content">Slide 1</div>
+  ...
+  <div class="slide-content">Slide n</div>
+</Carousel>
+
+<script>
+  import Carousel from './Carousel.svelte'
+  let carousel;
+  
+  function enter() {
+    carousel.pause();
+  }
+  
+  function leave() {
+    carousel.resume();
+  }
+</script>
+```
+
+  
