@@ -104,7 +104,7 @@
 	onMount(() => {
 		controller = new Siema({
 			selector: siema,
-			perPage,
+			perPage: typeof perPage === 'object' ? perPage : Number(perPage),
 			loop,
   			duration,
   			easing,
