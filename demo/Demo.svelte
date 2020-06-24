@@ -1,5 +1,6 @@
 <div class="demo">
-	<Carousel on:change={changed}>
+	{#each carousels as carousel}
+	<Carousel on:change={changed} {...carousel}>
 		<span class="control" slot="left-control">
 			<ChevronLeftIcon />
 		</span>
@@ -39,6 +40,9 @@
 			<ChevronRightIcon />
 		</span>
 	</Carousel>
+	<br/>
+	<br/>
+	{/each}
 </div>
 
 <style>
@@ -78,6 +82,18 @@
 <script>
 	import Carousel from '../src/Carousel.svelte'
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons'
+
+	let carousels = [
+		{
+			perPage: 3
+		},
+		{
+			perPage: {320: 2, 768: 4}
+		},
+		{
+			perPage: {320: 1, 768: 3}
+		}
+	]
 
 	function changed (event) {
 		console.log(event.detail.currentSlide)
