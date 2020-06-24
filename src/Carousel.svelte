@@ -8,8 +8,8 @@
 	</div>
     {#if dots}
 	<ul>
-		{#each Array(totalDots) as _, i}
-		<li test={i} on:click={() => go(i*perPage)} class={isDotActive(currentIndex, i) ? "active" : ""}></li>
+		{#each {length: totalDots} as _, i}
+		<li on:click={() => go(i*perPage)} class={isDotActive(currentIndex, i) ? "active" : ""}></li>
 		{/each}
 	</ul>
     {/if}
