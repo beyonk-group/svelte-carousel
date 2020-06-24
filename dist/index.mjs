@@ -327,7 +327,7 @@ const get_right_control_slot_context = ({}) => ({});
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = Object.create(ctx);
-	child_ctx.pip = list[i];
+	child_ctx._ = list[i];
 	child_ctx.i = i;
 	return child_ctx;
 }
@@ -339,7 +339,7 @@ const get_left_control_slot_context = ({}) => ({});
 function create_if_block(ctx) {
 	var ul;
 
-	var each_value = ctx.pips;
+	var each_value = Array(ctx.totalDots);
 
 	var each_blocks = [];
 
@@ -366,8 +366,8 @@ function create_if_block(ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.currentIndex || changed.pips) {
-				each_value = ctx.pips;
+			if (changed.isDotActive || changed.currentIndex || changed.totalDots) {
+				each_value = Array(ctx.totalDots);
 
 				for (var i = 0; i < each_value.length; i += 1) {
 					const child_ctx = get_each_context(ctx, each_value, i);
@@ -398,7 +398,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (11:2) {#each pips as pip, i}
+// (11:2) {#each Array(totalDots) as _, i}
 function create_each_block(ctx) {
 	var li, li_class_value, dispose;
 
@@ -409,7 +409,8 @@ function create_each_block(ctx) {
 	return {
 		c() {
 			li = element("li");
-			attr(li, "class", li_class_value = "" + (ctx.currentIndex === ctx.i ? "active" : "") + " svelte-1ppqxio");
+			attr(li, "test", ctx.i);
+			attr(li, "class", li_class_value = "" + (ctx.isDotActive(ctx.currentIndex, ctx.i) ? "active" : "") + " svelte-1ppqxio");
 			dispose = listen(li, "click", click_handler);
 		},
 
@@ -419,7 +420,7 @@ function create_each_block(ctx) {
 
 		p(changed, new_ctx) {
 			ctx = new_ctx;
-			if ((changed.currentIndex) && li_class_value !== (li_class_value = "" + (ctx.currentIndex === ctx.i ? "active" : "") + " svelte-1ppqxio")) {
+			if ((changed.currentIndex) && li_class_value !== (li_class_value = "" + (ctx.isDotActive(ctx.currentIndex, ctx.i) ? "active" : "") + " svelte-1ppqxio")) {
 				attr(li, "class", li_class_value);
 			}
 		},
@@ -466,10 +467,12 @@ function create_fragment(ctx) {
 			if (right_control_slot) right_control_slot.c();
 
 			attr(button0, "class", "left svelte-1ppqxio");
+			attr(button0, "aria-label", "left");
 
 			attr(div0, "class", "slides");
 
 			attr(button1, "class", "right svelte-1ppqxio");
+			attr(button1, "aria-label", "right");
 			attr(div1, "class", "carousel svelte-1ppqxio");
 
 			dispose = [
@@ -593,7 +596,7 @@ function instance($$self, $$props, $$invalidate) {
 	onMount(() => {
 		$$invalidate('controller', controller = new Siema({
 			selector: siema,
-			perPage,
+			perPage: typeof perPage === 'object' ? perPage : Number(perPage),
 			loop,
   			duration,
   			easing,
@@ -605,13 +608,20 @@ function instance($$self, $$props, $$invalidate) {
 			onChange: handleChange
 		}));
 		
-		autoplay && setInterval(right, autoplay);
+		if(autoplay) {
+			timer = setInterval(right, autoplay);
+		}
 
 		return () => {
-			autoplay && clearTimeout(timer);
+			autoplay && clearInterval(timer);
 			controller.destroy();
 		}
 	});
+
+	function isDotActive (currentIndex, dotIndex) {
+        if (currentIndex < 0) currentIndex = pips.length + currentIndex;
+        return currentIndex >= dotIndex*perPage && currentIndex < (dotIndex*perPage)+perPage
+    }
 	
 	function left () {
 		controller.prev();
@@ -623,6 +633,16 @@ function instance($$self, $$props, $$invalidate) {
 
 	function go (index) {
 		controller.goTo(index);
+	}
+	
+	function pause() {
+		clearInterval(timer);
+	}
+
+	function resume() {
+		if (autoplay) {
+			timer = setInterval(right, autoplay);
+		}
 	}
 
 	function handleChange (event) {
@@ -642,7 +662,7 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	function click_handler({ i }) {
-		return go(i);
+		return go(i*perPage);
 	}
 
 	$$self.$set = $$props => {
@@ -660,10 +680,11 @@ function instance($$self, $$props, $$invalidate) {
 		if ('$$scope' in $$props) $$invalidate('$$scope', $$scope = $$props.$$scope);
 	};
 
-	let pips;
+	let pips, totalDots;
 
-	$$self.$$.update = ($$dirty = { controller: 1 }) => {
-		if ($$dirty.controller) { $$invalidate('pips', pips = controller ? controller.innerElements : []); }
+	$$self.$$.update = ($$dirty = { controller: 1, perPage: 1 }) => {
+		if ($$dirty.controller) { pips = controller ? controller.innerElements : []; }
+		if ($$dirty.controller || $$dirty.perPage) { $$invalidate('totalDots', totalDots = controller ? Math.ceil(controller.innerElements.length / perPage) : []); }
 	};
 
 	return {
@@ -680,10 +701,13 @@ function instance($$self, $$props, $$invalidate) {
 		rtl,
 		currentIndex,
 		siema,
+		isDotActive,
 		left,
 		right,
 		go,
-		pips,
+		pause,
+		resume,
+		totalDots,
 		div0_binding,
 		click_handler,
 		$$slots,
@@ -695,7 +719,31 @@ class Carousel extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-1ppqxio-style")) add_css();
-		init(this, options, instance, create_fragment, safe_not_equal, ["perPage", "loop", "autoplay", "duration", "easing", "startIndex", "draggable", "multipleDrag", "dots", "threshold", "rtl"]);
+		init(this, options, instance, create_fragment, safe_not_equal, ["perPage", "loop", "autoplay", "duration", "easing", "startIndex", "draggable", "multipleDrag", "dots", "threshold", "rtl", "isDotActive", "left", "right", "go", "pause", "resume"]);
+	}
+
+	get isDotActive() {
+		return this.$$.ctx.isDotActive;
+	}
+
+	get left() {
+		return this.$$.ctx.left;
+	}
+
+	get right() {
+		return this.$$.ctx.right;
+	}
+
+	get go() {
+		return this.$$.ctx.go;
+	}
+
+	get pause() {
+		return this.$$.ctx.pause;
+	}
+
+	get resume() {
+		return this.$$.ctx.resume;
 	}
 }
 

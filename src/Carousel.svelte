@@ -8,8 +8,8 @@
 	</div>
     {#if dots}
 	<ul>
-		{#each pips as pip, i}
-		<li on:click={() => go(i)} class={currentIndex === i ? "active" : ""}></li>
+		{#each Array(totalDots) as _, i}
+		<li test={i} on:click={() => go(i*perPage)} class={isDotActive(currentIndex, i) ? "active" : ""}></li>
 		{/each}
 	</ul>
     {/if}
@@ -100,6 +100,7 @@
 	const dispatch = createEventDispatcher()
 
 	$: pips = controller ? controller.innerElements : []
+	$: totalDots = controller ? Math.ceil(controller.innerElements.length / perPage) : []
 	
 	onMount(() => {
 		controller = new Siema({
@@ -125,6 +126,11 @@
 			controller.destroy()
 		}
 	})
+
+	export function isDotActive (currentIndex, dotIndex) {
+        if (currentIndex < 0) currentIndex = pips.length + currentIndex;
+        return currentIndex >= dotIndex*perPage && currentIndex < (dotIndex*perPage)+perPage
+    }
 	
 	export function left () {
 		controller.prev()
