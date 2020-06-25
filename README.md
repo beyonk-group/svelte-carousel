@@ -100,7 +100,8 @@ You can pass the following attributes:
 | startIndex | number | 0	      | Index (zero-based) of the starting slide.                                                 				     |
 | draggable | boolean | true	      | Use dragging and touch swiping.                                                 				       |
 | multipleDrag | boolean | true	      | Allow dragging to move multiple slides.                                                 				     |
-| dots | boolean | true	      | Toggles visibility of slider dots.                                                 				  	       |
+| dots | boolean | true	      | Toggles visibility of slider dots.
+| controls | boolean | true	      | Toggles visibility of slider controls. dots.                                                 				  	       |
 | threshold | number | 20	      | Touch and mouse dragging threshold (in px).                                                 				     |
 | rtl | boolean | false	      | Enables layout for languages written from right to left (like Hebrew or Arabic).                                                |
 

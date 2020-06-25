@@ -88,6 +88,10 @@
 			perPage: 3
 		},
 		{
+			perPage: 3,
+			controls: false
+		},
+		{
 			perPage: {320: 2, 768: 4}
 		},
 		{
