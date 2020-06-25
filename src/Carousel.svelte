@@ -1,11 +1,16 @@
 
 <div class="carousel">
-	<button class="left" on:click={left} aria-label="left">
-		<slot name="left-control"></slot>
-	</button>
 	<div class="slides" bind:this={siema}>
 		<slot></slot>
 	</div>
+	{#if controls}
+	<button class="left" on:click={left} aria-label="left">
+		<slot name="left-control"></slot>
+	</button>
+	<button class="right" on:click={right} aria-label="right">
+		<slot name="right-control"></slot>
+	</button>
+	{/if}
     {#if dots}
 	<ul>
 		{#each {length: totalDots} as _, i}
@@ -13,9 +18,6 @@
 		{/each}
 	</ul>
     {/if}
-	<button class="right" on:click={right} aria-label="right">
-		<slot name="right-control"></slot>
-	</button>
 </div>
 
 <style>
@@ -89,6 +91,7 @@
 	export let draggable = true
 	export let multipleDrag = true	
 	export let dots = true	
+	export let controls = true
 	export let threshold = 20
 	export let rtl = false
 	let currentIndex = startIndex;

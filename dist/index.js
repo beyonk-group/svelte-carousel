@@ -171,6 +171,17 @@
     }
     const outroing = new Set();
     let outros;
+    function group_outros() {
+        outros = {
+            remaining: 0,
+            callbacks: []
+        };
+    }
+    function check_outros() {
+        if (!outros.remaining) {
+            run_all(outros.callbacks);
+        }
+    }
     function transition_in(block, local) {
         if (block && block.i) {
             outroing.delete(block);
@@ -328,9 +339,6 @@
     	append(document.head, style);
     }
 
-    const get_right_control_slot_changes = ({}) => ({});
-    const get_right_control_slot_context = ({}) => ({});
-
     function get_each_context(ctx, list, i) {
     	const child_ctx = Object.create(ctx);
     	child_ctx._ = list[i];
@@ -338,10 +346,109 @@
     	return child_ctx;
     }
 
+    const get_right_control_slot_changes = ({}) => ({});
+    const get_right_control_slot_context = ({}) => ({});
+
     const get_left_control_slot_changes = ({}) => ({});
     const get_left_control_slot_context = ({}) => ({});
 
-    // (9:4) {#if dots}
+    // (6:1) {#if controls}
+    function create_if_block_1(ctx) {
+    	var button0, t, button1, current, dispose;
+
+    	const left_control_slot_1 = ctx.$$slots["left-control"];
+    	const left_control_slot = create_slot(left_control_slot_1, ctx, get_left_control_slot_context);
+
+    	const right_control_slot_1 = ctx.$$slots["right-control"];
+    	const right_control_slot = create_slot(right_control_slot_1, ctx, get_right_control_slot_context);
+
+    	return {
+    		c() {
+    			button0 = element("button");
+
+    			if (left_control_slot) left_control_slot.c();
+    			t = space();
+    			button1 = element("button");
+
+    			if (right_control_slot) right_control_slot.c();
+
+    			attr(button0, "class", "left svelte-1ppqxio");
+    			attr(button0, "aria-label", "left");
+
+    			attr(button1, "class", "right svelte-1ppqxio");
+    			attr(button1, "aria-label", "right");
+
+    			dispose = [
+    				listen(button0, "click", ctx.left),
+    				listen(button1, "click", ctx.right)
+    			];
+    		},
+
+    		l(nodes) {
+    			if (left_control_slot) left_control_slot.l(button0_nodes);
+
+    			if (right_control_slot) right_control_slot.l(button1_nodes);
+    		},
+
+    		m(target, anchor) {
+    			insert(target, button0, anchor);
+
+    			if (left_control_slot) {
+    				left_control_slot.m(button0, null);
+    			}
+
+    			insert(target, t, anchor);
+    			insert(target, button1, anchor);
+
+    			if (right_control_slot) {
+    				right_control_slot.m(button1, null);
+    			}
+
+    			current = true;
+    		},
+
+    		p(changed, ctx) {
+    			if (left_control_slot && left_control_slot.p && changed.$$scope) {
+    				left_control_slot.p(get_slot_changes(left_control_slot_1, ctx, changed, get_left_control_slot_changes), get_slot_context(left_control_slot_1, ctx, get_left_control_slot_context));
+    			}
+
+    			if (right_control_slot && right_control_slot.p && changed.$$scope) {
+    				right_control_slot.p(get_slot_changes(right_control_slot_1, ctx, changed, get_right_control_slot_changes), get_slot_context(right_control_slot_1, ctx, get_right_control_slot_context));
+    			}
+    		},
+
+    		i(local) {
+    			if (current) return;
+    			transition_in(left_control_slot, local);
+    			transition_in(right_control_slot, local);
+    			current = true;
+    		},
+
+    		o(local) {
+    			transition_out(left_control_slot, local);
+    			transition_out(right_control_slot, local);
+    			current = false;
+    		},
+
+    		d(detaching) {
+    			if (detaching) {
+    				detach(button0);
+    			}
+
+    			if (left_control_slot) left_control_slot.d(detaching);
+
+    			if (detaching) {
+    				detach(t);
+    				detach(button1);
+    			}
+
+    			if (right_control_slot) right_control_slot.d(detaching);
+    			run_all(dispose);
+    		}
+    	};
+    }
+
+    // (14:4) {#if dots}
     function create_if_block(ctx) {
     	var ul;
 
@@ -404,7 +511,7 @@
     	};
     }
 
-    // (11:2) {#each {length: totalDots} as _, i}
+    // (16:2) {#each {length: totalDots} as _, i}
     function create_each_block(ctx) {
     	var li, li_class_value, dispose;
 
@@ -441,68 +548,36 @@
     }
 
     function create_fragment(ctx) {
-    	var div1, button0, t0, div0, t1, t2, button1, current, dispose;
-
-    	const left_control_slot_1 = ctx.$$slots["left-control"];
-    	const left_control_slot = create_slot(left_control_slot_1, ctx, get_left_control_slot_context);
+    	var div1, div0, t0, t1, current;
 
     	const default_slot_1 = ctx.$$slots.default;
     	const default_slot = create_slot(default_slot_1, ctx, null);
 
-    	var if_block = (ctx.dots) && create_if_block(ctx);
+    	var if_block0 = (ctx.controls) && create_if_block_1(ctx);
 
-    	const right_control_slot_1 = ctx.$$slots["right-control"];
-    	const right_control_slot = create_slot(right_control_slot_1, ctx, get_right_control_slot_context);
+    	var if_block1 = (ctx.dots) && create_if_block(ctx);
 
     	return {
     		c() {
     			div1 = element("div");
-    			button0 = element("button");
-
-    			if (left_control_slot) left_control_slot.c();
-    			t0 = space();
     			div0 = element("div");
 
     			if (default_slot) default_slot.c();
+    			t0 = space();
+    			if (if_block0) if_block0.c();
     			t1 = space();
-    			if (if_block) if_block.c();
-    			t2 = space();
-    			button1 = element("button");
-
-    			if (right_control_slot) right_control_slot.c();
-
-    			attr(button0, "class", "left svelte-1ppqxio");
-    			attr(button0, "aria-label", "left");
+    			if (if_block1) if_block1.c();
 
     			attr(div0, "class", "slides");
-
-    			attr(button1, "class", "right svelte-1ppqxio");
-    			attr(button1, "aria-label", "right");
     			attr(div1, "class", "carousel svelte-1ppqxio");
-
-    			dispose = [
-    				listen(button0, "click", ctx.left),
-    				listen(button1, "click", ctx.right)
-    			];
     		},
 
     		l(nodes) {
-    			if (left_control_slot) left_control_slot.l(button0_nodes);
-
     			if (default_slot) default_slot.l(div0_nodes);
-
-    			if (right_control_slot) right_control_slot.l(button1_nodes);
     		},
 
     		m(target, anchor) {
     			insert(target, div1, anchor);
-    			append(div1, button0);
-
-    			if (left_control_slot) {
-    				left_control_slot.m(button0, null);
-    			}
-
-    			append(div1, t0);
     			append(div1, div0);
 
     			if (default_slot) {
@@ -510,23 +585,14 @@
     			}
 
     			add_binding_callback(() => ctx.div0_binding(div0, null));
+    			append(div1, t0);
+    			if (if_block0) if_block0.m(div1, null);
     			append(div1, t1);
-    			if (if_block) if_block.m(div1, null);
-    			append(div1, t2);
-    			append(div1, button1);
-
-    			if (right_control_slot) {
-    				right_control_slot.m(button1, null);
-    			}
-
+    			if (if_block1) if_block1.m(div1, null);
     			current = true;
     		},
 
     		p(changed, ctx) {
-    			if (left_control_slot && left_control_slot.p && changed.$$scope) {
-    				left_control_slot.p(get_slot_changes(left_control_slot_1, ctx, changed, get_left_control_slot_changes), get_slot_context(left_control_slot_1, ctx, get_left_control_slot_context));
-    			}
-
     			if (default_slot && default_slot.p && changed.$$scope) {
     				default_slot.p(get_slot_changes(default_slot_1, ctx, changed, null), get_slot_context(default_slot_1, ctx, null));
     			}
@@ -536,36 +602,48 @@
     				ctx.div0_binding(div0, null);
     			}
 
-    			if (ctx.dots) {
-    				if (if_block) {
-    					if_block.p(changed, ctx);
+    			if (ctx.controls) {
+    				if (if_block0) {
+    					if_block0.p(changed, ctx);
+    					transition_in(if_block0, 1);
     				} else {
-    					if_block = create_if_block(ctx);
-    					if_block.c();
-    					if_block.m(div1, t2);
+    					if_block0 = create_if_block_1(ctx);
+    					if_block0.c();
+    					transition_in(if_block0, 1);
+    					if_block0.m(div1, t1);
     				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
+    			} else if (if_block0) {
+    				group_outros();
+    				transition_out(if_block0, 1, () => {
+    					if_block0 = null;
+    				});
+    				check_outros();
     			}
 
-    			if (right_control_slot && right_control_slot.p && changed.$$scope) {
-    				right_control_slot.p(get_slot_changes(right_control_slot_1, ctx, changed, get_right_control_slot_changes), get_slot_context(right_control_slot_1, ctx, get_right_control_slot_context));
+    			if (ctx.dots) {
+    				if (if_block1) {
+    					if_block1.p(changed, ctx);
+    				} else {
+    					if_block1 = create_if_block(ctx);
+    					if_block1.c();
+    					if_block1.m(div1, null);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
     			}
     		},
 
     		i(local) {
     			if (current) return;
-    			transition_in(left_control_slot, local);
     			transition_in(default_slot, local);
-    			transition_in(right_control_slot, local);
+    			transition_in(if_block0);
     			current = true;
     		},
 
     		o(local) {
-    			transition_out(left_control_slot, local);
     			transition_out(default_slot, local);
-    			transition_out(right_control_slot, local);
+    			transition_out(if_block0);
     			current = false;
     		},
 
@@ -574,14 +652,10 @@
     				detach(div1);
     			}
 
-    			if (left_control_slot) left_control_slot.d(detaching);
-
     			if (default_slot) default_slot.d(detaching);
     			ctx.div0_binding(null, div0);
-    			if (if_block) if_block.d();
-
-    			if (right_control_slot) right_control_slot.d(detaching);
-    			run_all(dispose);
+    			if (if_block0) if_block0.d();
+    			if (if_block1) if_block1.d();
     		}
     	};
     }
@@ -589,7 +663,7 @@
     function instance($$self, $$props, $$invalidate) {
     	
     	
-    	let { perPage = 3, loop = true, autoplay = 0, duration = 200, easing = 'ease-out', startIndex = 0, draggable = true, multipleDrag = true, dots = true, threshold = 20, rtl = false } = $$props;
+    	let { perPage = 3, loop = true, autoplay = 0, duration = 200, easing = 'ease-out', startIndex = 0, draggable = true, multipleDrag = true, dots = true, controls = true, threshold = 20, rtl = false } = $$props;
     	let currentIndex = startIndex;
     	
     	let siema;
@@ -680,6 +754,7 @@
     		if ('draggable' in $$props) $$invalidate('draggable', draggable = $$props.draggable);
     		if ('multipleDrag' in $$props) $$invalidate('multipleDrag', multipleDrag = $$props.multipleDrag);
     		if ('dots' in $$props) $$invalidate('dots', dots = $$props.dots);
+    		if ('controls' in $$props) $$invalidate('controls', controls = $$props.controls);
     		if ('threshold' in $$props) $$invalidate('threshold', threshold = $$props.threshold);
     		if ('rtl' in $$props) $$invalidate('rtl', rtl = $$props.rtl);
     		if ('$$scope' in $$props) $$invalidate('$$scope', $$scope = $$props.$$scope);
@@ -703,6 +778,7 @@
     		draggable,
     		multipleDrag,
     		dots,
+    		controls,
     		threshold,
     		rtl,
     		currentIndex,
@@ -726,7 +802,7 @@
     	constructor(options) {
     		super();
     		if (!document.getElementById("svelte-1ppqxio-style")) add_css();
-    		init(this, options, instance, create_fragment, safe_not_equal, ["perPage", "loop", "autoplay", "duration", "easing", "startIndex", "draggable", "multipleDrag", "dots", "threshold", "rtl", "isDotActive", "left", "right", "go", "pause", "resume"]);
+    		init(this, options, instance, create_fragment, safe_not_equal, ["perPage", "loop", "autoplay", "duration", "easing", "startIndex", "draggable", "multipleDrag", "dots", "controls", "threshold", "rtl", "isDotActive", "left", "right", "go", "pause", "resume"]);
     	}
 
     	get isDotActive() {
