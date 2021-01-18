@@ -4,10 +4,10 @@
 		<slot></slot>
 	</div>
 	{#if controls}
-	<button class="left" on:click={left} aria-label="left">
+	<button class="left" on:click={left} use:resetInterval={autoplay} aria-label="left">
 		<slot name="left-control"></slot>
 	</button>
-	<button class="right" on:click={right} aria-label="right">
+	<button class="right" on:click={right} use:resetInterval={autoplay} aria-label="right">
 		<slot name="right-control"></slot>
 	</button>
 	{/if}
@@ -165,5 +165,22 @@
 			currentSlide: controller.currentSlide,
 			slideCount: controller.innerElements.length
 		} )
-	}
+  }
+  
+  function resetInterval(node, condition) {
+		function handleReset(event) {
+			pause();
+			resume();
+		}
+		
+		if(condition) {
+			node.addEventListener('click', handleReset);
+		}
+		
+		return {
+		    destroy() {
+			    node.removeEventListener('click', handleReset);
+		    }
+	    }
+  }
 </script>
