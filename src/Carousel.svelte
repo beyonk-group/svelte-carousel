@@ -167,7 +167,7 @@
 		} )
   }
   
-  function resetInterval(node, condition) {
+	function resetInterval(node, condition) {
 		function handleReset(event) {
 			pause();
 			resume();
@@ -178,9 +178,9 @@
 		}
 		
 		return {
-		    destroy() {
-			    node.removeEventListener('click', handleReset);
-		    }
-	    }
-  }
+			destroy() {
+				node.removeEventListener('click', handleReset);
+			}
+		}
+	}
 </script>
