@@ -127,6 +127,7 @@
 
 		return () => {
 			autoplay && clearInterval(timer)
+			timer = null
 			controller.destroy()
 		}
 	})
@@ -150,10 +151,11 @@
 	
 	export function pause() {
 		clearInterval(timer);
+		timer = null
 	}
 
 	export function resume() {
-		if (autoplay) {
+		if (autoplay && !timer) {
 			timer = setInterval(right, autoplay);
 		}
 	}
