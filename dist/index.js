@@ -693,6 +693,7 @@
 
     		return () => {
     			autoplay && clearInterval(timer);
+    			timer = null;
     			controller.destroy();
     		}
     	});
@@ -716,10 +717,11 @@
     	
     	function pause() {
     		clearInterval(timer);
+    		timer = null;
     	}
 
     	function resume() {
-    		if (autoplay) {
+    		if (autoplay && !timer) {
     			timer = setInterval(right, autoplay);
     		}
     	}

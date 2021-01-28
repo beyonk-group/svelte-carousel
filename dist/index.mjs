@@ -687,6 +687,7 @@ function instance($$self, $$props, $$invalidate) {
 
 		return () => {
 			autoplay && clearInterval(timer);
+			timer = null;
 			controller.destroy();
 		}
 	});
@@ -710,10 +711,11 @@ function instance($$self, $$props, $$invalidate) {
 	
 	function pause() {
 		clearInterval(timer);
+		timer = null;
 	}
 
 	function resume() {
-		if (autoplay) {
+		if (autoplay && !timer) {
 			timer = setInterval(right, autoplay);
 		}
 	}
