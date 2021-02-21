@@ -94,6 +94,8 @@
 	export let controls = true
 	export let threshold = 20
 	export let rtl = false
+	export let selector = null
+	
 	let currentIndex = startIndex;
 	
 	let siema
@@ -108,7 +110,7 @@
 	
 	onMount(() => {
 		controller = new Siema({
-			selector: siema,
+			selector: selector || siema,
 			perPage: typeof perPage === 'object' ? perPage : Number(perPage),
 			loop,
   			duration,
