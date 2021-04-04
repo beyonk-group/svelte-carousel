@@ -77,13 +77,13 @@ npm i -D svelte-feather-icons
 If you need to override height and width, you can use CSS:
 
 ```css
-	.control :global(svg) {
-		width: 100%;
-		height: 100%;
-		color: #fff;
-		border: 2px solid #fff;
-		border-radius: 32px;
-	}
+.control :global(svg) {
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 32px;
+}
 ```
 
 #### Attributes
@@ -101,6 +101,12 @@ You can pass the following attributes:
 | draggable | boolean | true	      | Use dragging and touch swiping.                                                 				       |
 | multipleDrag | boolean | true	      | Allow dragging to move multiple slides.                                                 				     |
 | dots | boolean | true	      | Toggles visibility of slider dots.
+| dotsColor | string | 'rgba(255,255,255,0.5)' | Change default dot color. |
+| dotsHoverColor | string | 'rgba(255,255,255,0.85)' | Change default dot color on :hover. |
+| dotsActiveColor | string | 'rgba(255,255,255,1)' | Change default dot color when active. |
+| dotsWrapperClass | string | '' | Classes added to dots wrapper. |
+| dotsClass | string | '' | Classes added to each dots element. If defined, default dots CSS won't be loaded. |
+| dotsActiveClass | string | '' | Classes added to each dots element when active. If defined, default dots CSS won't be loaded. |
 | controls | boolean | true	      | Toggles visibility of slider controls. dots.                                                 				  	       |
 | threshold | number | 20	      | Touch and mouse dragging threshold (in px).                                                 				     |
 | rtl | boolean | false	      | Enables layout for languages written from right to left (like Hebrew or Arabic).                                                |
@@ -111,6 +117,28 @@ perPage can also be set to a responsive object, to change the number of slides b
 <Carousel perPage={{ 800: 3, 500: 2 }}>
 // will show 1 slide below 500px width, 2 at 500, 3 at 800.
 ```
+
+### Customizing
+
+**Changing dots colors**
+
+```svelte
+<Carousel dotsColor="#FFAAAA"
+          dotsHoverColor="#FC8888"
+          dotsActiveColor="#FF0000">
+```
+
+**Changing dots classes**
+
+Great for Tailwind CSS users.
+
+```svelte
+<Carousel dotsWrapperClass="flex items-center justify-center list-none"
+          dotsClass="m-1 w-2 h-2 rounded-full bg-red-600 bg-opacity-50 hover:bg-opacity-75 cursor-pointer transition duration-150 ease-in-out"
+          dotsActiveClass="bg-opacity-100">
+```
+
+Notice that when using `dotsClass` or `dotsActiveClass` default CSS wont be loaded – otherwise it would always overrule.
 
 ### Events
 
@@ -146,4 +174,3 @@ The Carousel components emits the following events:
 </script>
 ```
 
-  

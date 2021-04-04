@@ -12,9 +12,10 @@
 	</button>
 	{/if}
     {#if dots}
-	<ul>
+	<ul class="dots {dotsWrapperClass}">
 		{#each {length: totalDots} as _, i}
-		<li on:click={() => go(i*currentPerPage)} class={isDotActive(currentIndex, i) ? "active" : ""}></li>
+			<li on:click={() => go(i*currentPerPage)}
+				class="{dotsClass} {isDotActive(currentIndex, i) ? `active ${dotsActiveClass}` : ``}"></li>
 		{/each}
 	</ul>
     {/if}
@@ -27,7 +28,7 @@
 		justify-content: center;
 		align-items: center;
 	}
-	
+
 	button {
 		position: absolute;
 		width: 40px;
@@ -39,49 +40,55 @@
 		background-color: transparent;
 	}
 
-  button:focus {
-    outline: none;
-  }
-	
+	button:focus {
+		outline: none;
+	}
+
 	.left {
 		left: 2vw;
 	}
-	
+
 	.right {
 		right: 2vw;
 	}
-
-	ul {
-		list-style-type: none;
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		width: 100%;
-		margin-top: -30px;
-		padding: 0;
-	}
-
-	ul li {
-		margin: 6px;
-		border-radius: 100%;
-		background-color: rgba(255,255,255,0.5);
-		height: 8px;
-		width: 8px;
-	}
-
-	ul li:hover {
-		background-color: rgba(255,255,255,0.85);
-	}
-
-	ul li.active {
-		background-color: rgba(255,255,255,1);
-	}
 </style>
+
+{#if dots && (dotsClass === '' || dotsActiveClass === '')}
+	{@html `
+    <style>
+        .carousel ul.dots {
+            list-style-type: none;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: -30px;
+            padding: 0;
+        }
+        .carousel ul.dots li {
+            background-color: ${dotsColor};
+            transition: background-color ${duration}ms ${easing};
+            margin: 6px;
+            border-radius: 100%;
+            height: 8px;
+            width: 8px;
+            cursor: pointer;
+        }
+        .carousel ul.dots li:hover {
+            background-color: ${dotsHoverColor};
+        }
+        .carousel ul.dots li.active,
+        .carousel ul.dots li.active:hover {
+            background-color: ${dotsActiveColor};
+        }
+    </style>
+    `}
+{/if}
 
 <script>
 	import Siema from 'siema'
 	import { onMount, createEventDispatcher } from 'svelte'
-	
+
 	export let perPage = 3
 	export let loop = true
 	export let autoplay = 0
@@ -89,13 +96,19 @@
 	export let easing = 'ease-out'
 	export let startIndex = 0
 	export let draggable = true
-	export let multipleDrag = true	
-	export let dots = true	
+	export let multipleDrag = true
+	export let dots = true
+	export let dotsColor = 'rgba(255,255,255,0.5)'
+	export let dotsHoverColor = 'rgba(255,255,255,0.85)'
+	export let dotsActiveColor = 'rgba(255,255,255,1)'
+	export let dotsWrapperClass = ''
+	export let dotsClass = ''
+	export let dotsActiveClass = ''
 	export let controls = true
 	export let threshold = 20
 	export let rtl = false
 	let currentIndex = startIndex;
-	
+
 	let siema
 	let controller
 	let timer
@@ -105,7 +118,7 @@
 	$: pips = controller ? controller.innerElements : []
 	$: currentPerPage = controller ? controller.perPage : perPage
 	$: totalDots = controller ? Math.ceil(controller.innerElements.length / currentPerPage) : []
-	
+
 	onMount(() => {
 		controller = new Siema({
 			selector: siema,
@@ -120,7 +133,7 @@
   			rtl,
 			onChange: handleChange
 		})
-		
+
 		if(autoplay) {
 			timer = setInterval(right, autoplay);
 		}
@@ -136,11 +149,11 @@
         if (currentIndex < 0) currentIndex = pips.length + currentIndex;
         return currentIndex >= dotIndex*currentPerPage && currentIndex < (dotIndex*currentPerPage)+currentPerPage
     }
-	
+
 	export function left () {
 		controller.prev()
 	}
-	
+
 	export function right () {
 		controller.next()
 	}
@@ -148,7 +161,7 @@
 	export function go (index) {
 		controller.goTo(index)
 	}
-	
+
 	export function pause() {
 		clearInterval(timer);
 		timer = null
