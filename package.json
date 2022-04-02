@@ -15,7 +15,7 @@
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-node-resolve": "^5.1.0",
     "rollup-plugin-postcss": "^2.0.3",
-    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-serve": "^1.0.2",
     "rollup-plugin-svelte": "^5.1.0",
     "svelte": "^3.6.1",
     "svelte-feather-icons": "^1.1.1"
