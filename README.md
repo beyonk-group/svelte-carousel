@@ -1,3 +1,5 @@
+## This project is now archived. We don't use carousels any more, [and](https://powerdigitalmarketing.com/blog/why-you-should-not-use-a-carousel-on-your-website/#gref) [you](https://www.impactplus.com/blog/why-homepage-carousels-are-bad#:~:text=Carousels%20may%20seem%20flashy%20and,reflects%20badly%20on%20your%20brand.) [shouldn't](https://thegood.com/insights/ecommerce-image-carousels/) [either](https://cxl.com/blog/dont-use-automatic-image-sliders-or-carousels/).
+
 <a href="https://beyonk.com">
   <img src="https://user-images.githubusercontent.com/218949/144224348-1b3a20d5-d68e-4a7a-b6ac-6946f19f4a86.png" width="198" />
 </a>
