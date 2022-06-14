@@ -387,7 +387,7 @@
 
     // (6:1) {#if controls}
     function create_if_block_1(ctx) {
-    	var button0, t, button1, current, dispose;
+    	var button0, resetInterval_action, t, button1, resetInterval_action_1, current, dispose;
 
     	const left_control_slot_1 = ctx.$$slots["left-control"];
     	const left_control_slot = create_slot(left_control_slot_1, ctx, get_left_control_slot_context);
@@ -430,6 +430,7 @@
     				left_control_slot.m(button0, null);
     			}
 
+    			resetInterval_action = ctx.resetInterval.call(null, button0, ctx.autoplay) || {};
     			insert(target, t, anchor);
     			insert(target, button1, anchor);
 
@@ -437,6 +438,7 @@
     				right_control_slot.m(button1, null);
     			}
 
+    			resetInterval_action_1 = ctx.resetInterval.call(null, button1, ctx.autoplay) || {};
     			current = true;
     		},
 
@@ -445,8 +447,16 @@
     				left_control_slot.p(get_slot_changes(left_control_slot_1, ctx, changed, get_left_control_slot_changes), get_slot_context(left_control_slot_1, ctx, get_left_control_slot_context));
     			}
 
+    			if (typeof resetInterval_action.update === 'function' && changed.autoplay) {
+    				resetInterval_action.update.call(null, ctx.autoplay);
+    			}
+
     			if (right_control_slot && right_control_slot.p && changed.$$scope) {
     				right_control_slot.p(get_slot_changes(right_control_slot_1, ctx, changed, get_right_control_slot_changes), get_slot_context(right_control_slot_1, ctx, get_right_control_slot_context));
+    			}
+
+    			if (typeof resetInterval_action_1.update === 'function' && changed.autoplay) {
+    				resetInterval_action_1.update.call(null, ctx.autoplay);
     			}
     		},
 
@@ -469,6 +479,7 @@
     			}
 
     			if (left_control_slot) left_control_slot.d(detaching);
+    			if (resetInterval_action && typeof resetInterval_action.destroy === 'function') resetInterval_action.destroy();
 
     			if (detaching) {
     				detach(t);
@@ -476,6 +487,7 @@
     			}
 
     			if (right_control_slot) right_control_slot.d(detaching);
+    			if (resetInterval_action_1 && typeof resetInterval_action_1.destroy === 'function') resetInterval_action_1.destroy();
     			run_all(dispose);
     		}
     	};
@@ -766,7 +778,24 @@
     			currentSlide: controller.currentSlide,
     			slideCount: controller.innerElements.length
     		} );
-    	}
+      }
+      
+      function resetInterval(node, condition) {
+    		function handleReset(event) {
+    			pause();
+    			resume();
+    		}
+    		
+    		if(condition) {
+    			node.addEventListener('click', handleReset);
+    		}
+    		
+    		return {
+    		    destroy() {
+    			    node.removeEventListener('click', handleReset);
+    		    }
+    	    }
+      }
 
     	let { $$slots = {}, $$scope } = $$props;
 
@@ -824,6 +853,7 @@
     		go,
     		pause,
     		resume,
+    		resetInterval,
     		currentPerPage,
     		totalDots,
     		div0_binding,
